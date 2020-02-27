@@ -19,25 +19,44 @@ class App extends React.Component {
   }
 
   handleClick(event){
-    // a button click handler that takes what is in the input, removes it from the input and pushes it into the list.
-    // write the code that renders the list
-    debugger
-    let currentTask = this.state.word;
-    console.log('pushing task into array', currentTask)
-    let taskArr = this.state.list;
-    taskArr.push(currentTask);
-    this.setState({word:" "});
-    console.log(taskArr);
-    let listItem = document.createElement('li');
-    listItem.innerHTML = currentTask;
-    document.getElementById('taskList').appendChild(listItem);
-  }
+    // input validation
+    debugger;
+    if (this.state.word === "") {
+      this.setState({ error:true})
+    }
+    else if(this.state.word.length >1<=200){
+      this.setState({error:false});
+      let currentTask = this.state.word;
+      console.log('pushing task into array', currentTask)
+      let taskArr = this.state.list;
+      taskArr.push(currentTask);
+      console.log(taskArr);
+      let listItem = document.createElement('li');
+      listItem.innerHTML = currentTask;
+      document.getElementById('taskList').appendChild(listItem);
+      this.setState({word:""});
+      document.getElementById("taskName").reset();
+    }
+
+  };
+
   render() {
     console.log('rendering');
+    let errorMsg = " ";
+
+    if (this.state.error){
+      var errorContainer = document.getElementById("error");
+      if (event.target.value.length < 1)
+      errorMsg = `ERROR: No input!`;
+      else if (event.target.value.length > 200)
+      errorMsg = `ERROR: Input is too long!`
+    }
+
     return (
       <div>
         <h1> Add Task: </h1>
           <input type ="text" id ="taskName" placeholder="Add task" onChange={()=>{this.getInputValue(event);}} value = {this.state.word}/>
+          <div id = "error">{errorMsg}</div>
 
           <div className = "submit-btn">
             <button type ="button" onClick={()=>{this.handleClick(event);}}>Submit</button>
