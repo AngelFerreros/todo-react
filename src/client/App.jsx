@@ -8,7 +8,8 @@ class App extends React.Component {
     console.log("input value");
     this.state = {
       word : "",
-      error: false
+      error: false,
+      list: []
     }
   }
 
@@ -20,16 +21,18 @@ class App extends React.Component {
   handleClick(event){
     // a button click handler that takes what is in the input, removes it from the input and pushes it into the list.
     // write the code that renders the list
-    // debugger
+    debugger
     let task = this.state.word;
     console.log('pushing task into array', task)
+    let taskArr = this.state.list;
+    taskArr.push(task);
     this.setState({word:" "});
+    console.log(taskArr);
   }
 
 
   render() {
-    let taskList = [];
-    let tasks = taskList.map (task => <li> {task} </li>)
+    // let tasks = this.state.list.map (task => <li> {task} </li>)
 
     return (
       <div>
