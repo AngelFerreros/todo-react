@@ -1,6 +1,7 @@
 import React from 'react';
 import { hot } from 'react-hot-loader';
-
+var moment = require('moment');
+moment().format();
 
 class App extends React.Component {
   constructor(){
@@ -32,25 +33,34 @@ class App extends React.Component {
       taskArr.push(currentTask);
       console.log(taskArr);
       let listItem = document.createElement('li');
+      let clearBtn = document.createElement('button')
       listItem.innerHTML = currentTask;
-      document.getElementById('taskList').appendChild(listItem);
+      clearBtn.innerText = "Clear Task"
+      clearBtn.id = taskArr.indexOf(currentTask);
+      document.querySelector('.taskList').appendChild(listItem);
+      document.querySelector('.taskList').appendChild(clearBtn);
       this.setState({word:""});
-      document.getElementById("taskName").reset();
     }
-
   };
+
+//clears task upon click of clear btn
+
+
+
 
   render() {
     console.log('rendering');
     let errorMsg = " ";
 
     if (this.state.error){
-      var errorContainer = document.getElementById("error");
+      var errorContainer = document.querySelector("#error");
       if (event.target.value.length < 1)
       errorMsg = `ERROR: No input!`;
       else if (event.target.value.length > 200)
       errorMsg = `ERROR: Input is too long!`
     }
+
+
 
     return (
       <div>
@@ -64,7 +74,8 @@ class App extends React.Component {
 
           <div className = "tasks">
           <h2> My Tasks:</h2>
-            <ul id = "taskList">
+            <ul class = "taskList">
+
             </ul>
           </div>
       </div>
