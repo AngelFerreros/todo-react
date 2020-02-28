@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { hot } from 'react-hot-loader';
-var moment = require('moment');
-moment().format();
+import Moment from 'moment';
+
 
 class App extends React.Component {
   constructor(){
@@ -32,21 +32,16 @@ class App extends React.Component {
       let taskArr = this.state.list;
       taskArr.push(currentTask);
       console.log(taskArr);
-      let listItem = document.createElement('li');
-      let clearBtn = document.createElement('button')
-      listItem.innerHTML = currentTask;
-      clearBtn.innerText = "Clear Task"
-      clearBtn.id = taskArr.indexOf(currentTask);
-      document.querySelector('.taskList').appendChild(listItem);
-      document.querySelector('.taskList').appendChild(clearBtn);
       this.setState({word:""});
     }
   };
 
 //clears task upon click of clear btn
-
-
-
+  removeTask(index) {
+     this.state.list.splice(index, 1)
+        let array = this.state.list
+        this.setState({list: array})
+  }
 
   render() {
     console.log('rendering');
@@ -54,13 +49,22 @@ class App extends React.Component {
 
     if (this.state.error){
       var errorContainer = document.querySelector("#error");
-      if (event.target.value.length < 1)
+      if (event.target.value.length < 1){
       errorMsg = `ERROR: No input!`;
-      else if (event.target.value.length > 200)
+      }
+      else if (event.target.value.length > 200){
       errorMsg = `ERROR: Input is too long!`
+      }
     }
 
-
+ const taskEl = this.state.list.map((task, index) => {
+        return (
+            <Fragment>
+                <li key={index}> {task}</li>
+                <button onClick={()=>{ this.removeTask(index)}}>Clear Task</button>
+            </Fragment>
+            );
+    })
 
     return (
       <div>
@@ -75,7 +79,7 @@ class App extends React.Component {
           <div className = "tasks">
           <h2> My Tasks:</h2>
             <ul class = "taskList">
-
+            {taskEl}
             </ul>
           </div>
       </div>
