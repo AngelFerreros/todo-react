@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import { hot } from 'react-hot-loader';
 import Moment from 'moment';
-
+import Form from './components/form/form';
 
 class App extends React.Component {
   constructor(){
@@ -12,11 +12,6 @@ class App extends React.Component {
       error: false,
       list: []
     }
-  }
-
-  getInputValue(event){
-    this.setState({word:event.target.value});
-    console.log('task:',event.target.value)
   }
 
   handleClick(event){
@@ -45,17 +40,6 @@ class App extends React.Component {
 
   render() {
     console.log('rendering');
-    let errorMsg = " ";
-
-    if (this.state.error){
-      var errorContainer = document.querySelector("#error");
-      if (event.target.value.length < 1){
-      errorMsg = `ERROR: No input!`;
-      }
-      else if (event.target.value.length > 200){
-      errorMsg = `ERROR: Input is too long!`
-      }
-    }
 
  const taskEl = this.state.list.map((task, index) => {
         return (
@@ -69,8 +53,7 @@ class App extends React.Component {
     return (
       <div>
         <h1> Add Task: </h1>
-          <input type ="text" id ="taskName" placeholder="Add task" onChange={()=>{this.getInputValue(event);}} value = {this.state.word}/>
-          <div id = "error">{errorMsg}</div>
+          <Form userInput = { (input)=> {this.setState({word: input})}}/>
 
           <div className = "submit-btn">
             <button type ="button" onClick={()=>{this.handleClick(event);}}>Submit</button>
@@ -78,7 +61,7 @@ class App extends React.Component {
 
           <div className = "tasks">
           <h2> My Tasks:</h2>
-            <ul class = "taskList">
+            <ul className = "taskList">
             {taskEl}
             </ul>
           </div>
